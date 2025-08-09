@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot Kombur</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div id="chatbox"></div>
+    <input type="text" id="message" placeholder="Ketik pesan...">
+    <button onclick="sendMessage()">Kirim</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.0/socket.io.js"></script>
+    <script>
+        var socket = io();
+
+        socket.on("receive_message", function(data) {
+            var chatbox = document.getElementById("chatbox");
+            chatbox.innerHTML += "<p><b>" + data.role + ":</b> " + data.content + "</p>";
+        });
+
+        function sendMessage() {
+            var message = document.getElementById("message").value;
+            socket.emit("send_message", {message: message});
+            document.getElementById("message").value = "";
+        }
+    </script>
+</body>
+</html>
