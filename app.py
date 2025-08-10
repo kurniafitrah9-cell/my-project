@@ -19,6 +19,10 @@ chat_history = [
 def index():
     return render_template("index.html")
 
+@app.route("/ping")
+def ping():
+    return "OK", 200  # Untuk pengecekan uptime/keep alive
+
 @socketio.on("send_message")
 def handle_message(data):
     user_input = data["message"]
